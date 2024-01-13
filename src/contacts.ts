@@ -1,24 +1,31 @@
 const { nanoid } = require("nanoid");
 const fs = require("fs/promises");
 const path = require("path");
-const contactsPath = path.join(__dirname, "db", "contacts.json");
+const contactsPath = path.join(__dirname, "..", "db", "contacts.json");
 
 async function listContacts() {
   const contacts = await fs.readFile(contactsPath);
   return JSON.parse(contacts);
 }
 
-async function getContactById(contactId) {
+interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+async function getContactById(contactId: string) {
   // ...твій код. Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
   const contacts = await listContacts();
-  const oneContact = contacts.find(contact => contact.id === contactId);
+  const oneContact = contacts.find((contact: Contact) => contact.id === contactId);
   return oneContact || null;
 }
 
-async function removeContact(contactId) {
+async function removeContact(contactId: string) {
   // ...твій код. Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
   const contacts = await listContacts();
-  const index = contacts.findIndex(contact => contact.id === contactId);
+  const index = contacts.findIndex((contact: Contact) => contact.id === contactId);
 
   if (index === -1) {
     return null;
@@ -29,7 +36,7 @@ async function removeContact(contactId) {
   return result;
 }
 
-async function addContact(name, email, phone) {
+async function addContact(name: string, email: string, phone: string) {
   // ...твій код. Повертає об'єкт доданого контакту.
   const contacts = await listContacts();
   const newContact = {

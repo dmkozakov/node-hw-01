@@ -18,7 +18,15 @@ const argv = program.opts();
 
 const contacts = require("./contacts");
 
-const invokeAction = async ({ action, id, name, email, phone }) => {
+interface Action {
+  action: string;
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+const invokeAction = async ({ action, id, name, email, phone }: Action) => {
   switch (action) {
     case "list":
       const allContacts = await contacts.listContacts();
